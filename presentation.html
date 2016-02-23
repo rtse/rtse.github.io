@@ -1,0 +1,913 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>Introduction to ES6</title>
+
+		<meta name="description" content="Introduction to ES6">
+		<meta name="author" content="rtse">
+
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+
+		<link rel="stylesheet" href="css/reveal.css">
+		<link rel="stylesheet" href="css/theme/black.css" id="theme">
+
+		<!-- Code syntax highlighting -->
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+
+		<!-- Printing and PDF exports -->
+		<script>
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+		</script>
+
+		<!--[if lt IE 9]>
+		<script src="lib/js/html5shiv.js"></script>
+		<![endif]-->
+	</head>
+
+	<body>
+
+		<div class="reveal">
+
+			<!-- Any section element inside of this container is displayed as a slide -->
+			<div class="slides">
+				<section>
+					<h1>Introduction to <br/><span style="color:#f5da55;">ECMAScript 6</span></h1>
+					<h3>Just another introduction to ES6</h3>
+					<p>
+						<small>Created by <a href="https://github.com/rtse" target="_blank">rtse</a></small>
+					</p>
+				</section>
+
+				<section>
+					<h2>Agenda</h2>
+					<ul>
+						<li>What is ES6?</li>
+						<li>Transpilers</li>
+						<li>Constants + Variables</li>
+						<li>Spread/Rest operator</li>
+						<li>Destructuring</li>
+						<li>Arrow Functions</li>
+						<li>Template Strings</li>
+						<li>Modules</li>
+					</ul>
+				</section>
+
+				<section>
+					<img src="es6.jpg" style="margin: auto 0;" />
+					<h2>What is ES6?</h2>
+					<p>
+						ES6, also known as ECMAScript 2015, is the 6th version of the ECMAScript Language Specification standard.
+					</p>
+				</section>
+
+				<section>
+					<h2>What is ES6?</h2>
+					<p>
+						ES6 was finalized in June 2015 and adds many new features on top of ES5: classes, modules, arrow functions, promises, for/of loops, etc.
+					</p>
+				</section>
+
+				<section>
+					<h2>Transpilers</h2>
+					<p>
+						<ul>
+							<li>A "source-to-source" compiler</li>
+							<li>A transpiler takes a piece of source code and translates to another piece of source code</li>
+							<li>In Javascript's world, ES6 is translated to ES5 through JS transpilers. (Why ES6 to ES5?)</li>
+							<li>Why transpilers? Because browsers do not support all new features (i.e ES6 Module System and Loaders)</li>
+						</ul>
+					</p>
+				</section>
+
+				<section>
+					<h2>Transpilers</h2>
+					<ul>
+						<ol>
+							<h3 style="color:#f5da55;">Babel</h3>
+							<div>
+								- <a href="https://babeljs.io/" target="_blank">https://babeljs.io/</a>
+								<p>Example: Babel + React</p>
+							</div>
+						</ol>
+						<ol>
+							<h3 style="color:#f5da55;">Traceur</h3>
+							<div>
+								- <a href="https://github.com/google/traceur-compiler" target="_blank">https://github.com/google/traceur-compiler</a>
+								<p>Example: Traceur + SystemJS (built on top of es6-module-loader)</p>
+							</div>
+						</ol>
+						<ol>
+							<h3 style="color:#f5da55;">TypeScript</h3>
+							<div>
+								- <a href="http://www.typescriptlang.org/" target="_blank">http://www.typescriptlang.org/</a>
+								<p>Example: TypeScript + Angular 2</p>
+							</div>
+						</ol>
+					</ul>
+				</section>
+
+				<section>
+					<img src="es6.jpg" style="margin: auto 0;" />
+					<div>Constants + Variables</div>
+				</section>
+
+				<section>
+					<h2>Variable (var)</h2>
+					<pre><code class="hljs" data-trim contenteditable>
+function printHello() {
+  if(true) {
+    var result = "Hello World";
+  }
+  console.log(result);
+}
+printHello(); // "Hello World"
+					</code></pre>
+					<p>var-declared variables are function-scoped.</p>
+				</section>
+
+				<section>
+					<h2>Variable (let)</h2>
+					<pre><code class="hljs" data-trim contenteditable>
+function printHello() {
+  if(true) {
+    let result = "Hello World";
+  }
+  console.log(result);
+}
+printHello(); // Exception: ReferenceError: result is not defined
+					</code></pre>
+					<p>let-declared variables are block-scoped.</p>
+				</section>
+
+				<section>
+					<h2>Variable (var)</h2>
+					<pre><code class="hljs" data-trim contenteditable>
+function printNumber() {
+  var x = 1;
+  if(x === 1) {
+   var x = 2;
+  }
+  console.log(x);
+}
+printNumber();
+					</code></pre>
+					<p class="fragment">Output: 2</p>
+				</section>
+
+				<section>
+					<h2>Variable (let)</h2>
+					<pre><code class="hljs" data-trim contenteditable>
+function printNumber() {
+  let x = 1;
+  if(x === 1) {
+   let x = 2;
+  }
+  console.log(x);
+}
+printNumber();
+					</code></pre>
+					<p class="fragment">Output: 1</p>
+				</section>
+
+				<section>
+					<h2>Variable (let)</h2>
+					<ul>
+						<li>let-declared variables are block-scoped.</li>
+						<li>Global let variables are not the properties in the window object (e.g. window.letVariableName).</li>
+						<li>Re-declaring a let variable will result the <span style="color:#FF1493;">ReferenceError</span>, instead of <span style="color:#FF1493;">undefined</span>.</li>
+					</ul>
+				</section>
+
+				<section>
+					<h2>const</h2>
+					<pre><code class="hljs" data-trim contenteditable>
+const PI = 3.14159;
+const TOTAL = 10000;
+TOTAL = 0; // Exception: TypeError
+TOTAL++; // Exception: TypeError
+					</code></pre>
+					<p><span style="color:#f5da55;">const</span> is like let, except that it cannot be re-assigned or you will get the <span style="color:#FF1493;">TypeError</span>.</p>
+				</section>
+
+				<section>
+					<img src="es6.jpg" style="margin: auto 0;" />
+					<div>Spread/Rest operator</div>
+				</section>
+
+				<section>
+					<h2>Spread operator</h2>
+					<table>
+						<thead>
+							<tr>
+								<th><div style="text-align:center;">Chrome</div></th>
+								<th nowrap="true">Firefox (Gecko)</th>
+								<th><div style="text-align:center;">IE</div></th>
+								<th><div style="text-align:center;">Opera</div></th>
+								<th><div style="text-align:center;">Safari</div></th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td><div style="text-align:center;">46</div></td>
+								<td nowrap="true"><div style="text-align:center;">16, 27</div></td>
+								<td nowrap="true"><div style="text-align:center;">Not supported</div></td>
+								<td><div style="text-align:center;">Not supported</div></td>
+								<td nowrap="true"><div style="text-align:center;">7.1</div></td>
+							</tr>
+						</tbody>
+					</table>
+				</section>
+
+				<section>
+					<h2>Rest operator</h2>
+					<table>
+						<thead>
+							<tr>
+								<th><div style="text-align:center;">Chrome</div></th>
+								<th nowrap="true">Firefox (Gecko)</th>
+								<th><div style="text-align:center;">Edge</div></th>
+								<th><div style="text-align:center;">IE</div></th>
+								<th><div style="text-align:center;">Opera</div></th>
+								<th><div style="text-align:center;">Safari</div></th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td><div style="text-align:center;">47</div></td>
+								<td nowrap="true"><div style="text-align:center;">15.0 (15.0)</div></td>
+								<td><div style="text-align:center;">(Yes)</div></td>
+								<td nowrap="true"><div style="text-align:center;">Not supported</div></td>
+								<td><div style="text-align:center;">34</div></td>
+								<td nowrap="true"><div style="text-align:center;">Not supported</div></td>
+							</tr>
+						</tbody>
+					</table>
+				</section>
+
+				<section>
+					<h2>Spread operator</h2>
+
+					<p>For function calls:</p>
+					<pre><code class="hljs" data-trim contenteditable>
+myFunction(...iterableObj);
+					</code></pre>
+
+					<p>For array literals:</p>
+					<pre><code class="hljs" data-trim contenteditable>
+[...iterableObj, 4, 5, 6]
+					</code></pre>
+
+					<p>For destructuring:</p>
+					<pre><code class="hljs" data-trim contenteditable>
+[a, b, ...iterableObj] = [1, 2, 3, 4, 5];
+					</code></pre>
+				</section>
+
+				<section>
+					<h2>Rest operator</h2>
+					<p>For function declaration:</p>
+					<pre><code class="hljs" data-trim contenteditable>
+var myFunction = function(a, b, ...theArgs) {
+  // ...
+}
+					</code></pre>
+				</section>
+
+				<section>
+					<h2>Spread operator</h2>
+					<pre><code class="hljs" data-trim contenteditable>
+function nums(a, b, c, d, e) {
+	console.log(b);
+	console.log(c);
+	console.log(e);
+}
+var args = [2, 3];
+console.log(nums(1, ...args, 4, ...[5]));
+					</code></pre>
+					<p>Output:</p>
+					<p>2</p>
+					<p>3</p>
+					<p>5</p>
+				</section>
+
+				<section>
+					<h2>Spread operator</h2>
+					<pre><code class="hljs" data-trim contenteditable>
+var dAndE = ["d", "e"];
+var letters = ["a", "b", "c", ...dAndE, "f", "g"];
+					</code></pre>
+					<p>Output: ["a", "b", "c", "d", "e", "f", "g"]</p>
+				</section>
+
+				<section>
+					<h2>Rest operator</h2>
+					<pre><code class="hljs" data-trim contenteditable>
+function fun1(...theArgs) {
+  console.log(theArgs.length);
+}
+
+fun1();
+fun1(5);
+fun1(5, 6, 7);
+					</code></pre>
+					<p>Output:</p>
+					<p>0</p>
+					<p>1</p>
+					<p>3</p>
+				</section>
+
+				<section>
+					<img src="es6.jpg" style="margin: auto 0;" />
+					<div>Destructuring</div>
+				</section>
+
+				<section>
+					<h2>Destructuring arrays</h2>
+					<pre><code class="hljs" data-trim contenteditable>
+var someNumbers = [1, 2, 3];
+var num1 = someNumbers[0];
+var num2 = someNumbers[1];
+var num3 = someNumbers[2];
+console.log(num1 + ", " + num2 + ", " + num3);
+					</code></pre>
+					<p class="fragment">Output: 1, 2, 3</p>
+				</section>
+
+				<section>
+					<h2>Destructuring arrays</h2>
+					<pre><code class="hljs" data-trim contenteditable>
+var someNumbers = [1, 2, 3];
+var [num1, num2, num3] = someNumbers;
+console.log(num1 + ", " + num2 + ", " + num3);
+					</code></pre>
+					<p class="fragment">Output: 1, 2, 3</p>
+				</section>
+
+				<section>
+					<h2>Destructuring arrays</h2>
+					<pre><code class="hljs" data-trim contenteditable>
+var someNumbers = [1, 2, 3];
+var [, , numOnly] = someNumbers;
+console.log(numOnly);
+					</code></pre>
+					<p class="fragment">Output: 3</p>
+				</section>
+
+				<section>
+					<h2>Destructuring arrays</h2>
+					<pre><code class="hljs" data-trim contenteditable>
+var [head, ...tail] = [1, 2, 3, 4];
+console.log(tail);
+					</code></pre>
+					<p class="fragment">Output: [2, 3, 4]<br/>"...tail" refers to the "rest" pattern.</p>
+				</section>
+
+				<section>
+					<h2>Destructuring arrays</h2>
+					<pre><code class="hljs" data-trim contenteditable>
+var x = 1;
+var y = 2;
+
+[x, y] = [y, x];
+console.log(x);
+console.log(y);
+					</code></pre>
+					<p class="fragment">Output: x => 2, y => 1</p>
+					<p class="fragment">Swapping variables becomes brief but comprehensive. <br/>No more temp variables!</p>
+				</section>
+
+				<section>
+					<h2>Destructuring objects</h2>
+					<pre><code class="hljs" data-trim contenteditable>
+var { firstName, lastName } = {
+	firstName: "Richard",
+	lastName: "Tse"
+};
+
+console.log(firstName); // Richard
+console.log(lastName); // Tse
+					</code></pre>
+				</section>
+
+				<section>
+					<h2>Destructuring objects</h2>
+					<pre><code class="hljs" data-trim contenteditable>
+var firstName, lastName;
+
+({ firstName, lastName } = {
+	firstName: "Richard",
+	lastName: "Tse"
+});
+
+console.log(firstName); // Richard
+console.log(lastName); // Tse
+					</code></pre>
+					<p>Note: without the declaration, "(...)" is required to destructure the variables or you will get the <span style="color:#FF1493;">SyntaxError</span>.</p>
+				</section>
+
+				<section>
+					<img src="es6.jpg" style="margin: auto 0;" />
+					<div>Arrow Functions</div>
+				</section>
+
+				<section>
+					<h2>Arrow Functions</h2>
+					<table>
+						<thead>
+							<tr>
+								<th><div style="text-align:center;">Chrome</div></th>
+								<th nowrap="true">Firefox (Gecko)</th>
+								<th><div style="text-align:center;">Edge</div></th>
+								<th><div style="text-align:center;">IE</div></th>
+								<th><div style="text-align:center;">Opera</div></th>
+								<th><div style="text-align:center;">Safari</div></th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td><div style="text-align:center;">45.0</div></td>
+								<td nowrap="true"><div style="text-align:center;">22.0 (22.0)</div></td>
+								<td><div style="text-align:center;">(Yes)</div></td>
+								<td nowrap="true"><div style="text-align:center;">No support</div></td>
+								<td><div style="text-align:center;">32</div></td>
+								<td nowrap="true"><div style="text-align:center;">No support</div></td>
+							</tr>
+						</tbody>
+					</table>
+				</section>
+
+
+				<section>
+					<h2>Arrow Functions</h2>
+					<pre><code class="hljs" data-trim contenteditable>
+var sayHello = function(message, name){
+	return "Hello, " + name + ". " + message;
+};
+console.log(sayHello("How are you?", "Richard"));
+// Hello, Richard. How are you?
+					</code></pre>
+					<p>ES5</p>
+				</section>
+
+				<section>
+					<h2>Arrow Functions</h2>
+					<pre><code class="hljs" data-trim contenteditable>
+var sayHello = (message, name) => {
+	return "Hello, " + name + ". " + message;
+};
+					</code></pre>
+					<pre class="fragment"><code class="hljs" data-trim contenteditable>
+var sayHello = (message, name) =>
+        "Hello, " + name + ". " + message;
+					</code></pre>
+					<pre class="fragment"><code class="hljs" data-trim contenteditable>
+var sayHello = name => "Hello, " + name;
+					</code></pre>
+					<p>ES6</p>
+				</section>
+
+				<section>
+					<h2>Arrow Functions</h2>
+					<pre><code class="hljs" data-trim contenteditable>
+var nums = [1, 2, 3];
+var result = nums.map(function(item){
+  return item * 2;
+});
+console.log(result); // [2, 4, 6]
+					</code></pre>
+					<p>ES5</p>
+				</section>
+
+				<section>
+					<h2>Arrow Functions</h2>
+					<pre><code class="hljs" data-trim contenteditable>
+var nums2 = [1, 2, 3];
+var result2 = nums.map(item => item * 2);
+console.log(result2); // [2, 4, 6]
+					</code></pre>
+					<p>ES6</p>
+				</section>
+
+				<section>
+					<h2>Arrow Functions</h2>
+					<pre><code class="hljs" data-trim contenteditable>
+function Counter() {
+	this.second = 0;
+
+	var self = this;
+
+	setTimeout(function count() {
+		self.second++;
+		console.log(self.second);
+	}, 1000);
+}
+var c = new Counter();
+					</code></pre>
+					<p>ES5</p>
+				</section>
+
+				<section>
+					<h2>Arrow Functions</h2>
+					<pre><code class="hljs" data-trim contenteditable>
+function Counter() {
+  this.second = 0;
+
+  setTimeout(() => {
+    this.second++;
+    console.log(this.second);
+  }, 1000);
+}
+var c = new Counter();
+					</code></pre>
+					<p>ES6</p>
+				</section>
+
+				<section>
+					<h2>Arrow Functions</h2>
+					<pre><code class="hljs" data-trim contenteditable>
+// emptyFn undefined
+var emptyFn = () => {};
+
+(() => "Hello!")() // returns "Hello!"
+					</code></pre>
+					<p>Other styles</p>
+				</section>
+
+				<section>
+					<h2>Arrow Functions</h2>
+					<span class="fragment">
+					<pre><code class="hljs" data-trim contenteditable>
+var sayHello = (name = "Richard") => "Hello, " + name;
+					</code></pre>
+					<p>Default parameters - new style</p>
+					</span>
+
+					<span class="fragment">
+					<pre><code class="hljs" data-trim contenteditable>
+var sayHello = function(name = "Richard") {
+	return "Hello, " + name;
+};
+					</code></pre>
+					<p>Default parameters - traditional style</p>
+					</span>
+				</section>
+
+				<section>
+					<img src="es6.jpg" style="margin: auto 0;" />
+					<div>Template strings</div>
+				</section>
+
+				<section>
+					<h2>Template strings</h2>
+					<table>
+						<thead>
+							<tr>
+								<th><div style="text-align:center;">Chrome</div></th>
+								<th nowrap="true">Firefox (Gecko)</th>
+								<th><div style="text-align:center;">Edge</div></th>
+								<th><div style="text-align:center;">IE</div></th>
+								<th><div style="text-align:center;">Opera</div></th>
+								<th><div style="text-align:center;">Safari</div></th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td><div style="text-align:center;">41</div></td>
+								<td nowrap="true"><div style="text-align:center;">34 (34)</div></td>
+								<td><div style="text-align:center;">(Yes)</div></td>
+								<td nowrap="true"><div style="text-align:center;">No support</div></td>
+								<td><div style="text-align:center;">28</div></td>
+								<td nowrap="true"><div style="text-align:center;">9</div></td>
+							</tr>
+						</tbody>
+					</table>
+				</section>
+
+				<section>
+					<h2>Template strings</h2>
+					<span class="fragment">
+					<pre><code class="hljs" data-trim contenteditable>
+var sayHello = "Hello World!\n" + "This is normal string.";
+console.log(sayHello);
+					</code></pre>
+					<p>Output:</p>
+					<pre><code class="hljs" data-trim contenteditable>
+Hello World!
+This is normal string.
+					</code></pre>
+					</span>
+				</section>
+
+				<section>
+					<h2>Template strings</h2>
+					<span class="fragment">
+					<pre><code class="hljs" data-trim contenteditable>
+var sayHello = `Hello World!
+This is template string.`;
+console.log(sayHello);
+					</code></pre>
+					<p>Output:</p>
+					<pre><code class="hljs" data-trim contenteditable>
+Hello World!
+This is template string.
+					</code></pre>
+					</span>
+				</section>
+
+				<section>
+					<h2>Template strings</h2>
+					<p>Expression interpolation / String Substitution</p>
+					<pre><code class="hljs" data-trim contenteditable>
+var name = "Richard";
+console.log("Hello ${name}");
+					</code></pre>
+					<p>Output:</p>
+					<p class="fragment">Hello ${name}</p>
+				</section>
+
+				<section>
+					<h2>Template strings</h2>
+					<p>Expression interpolation / String Substitution</p>
+					<pre><code class="hljs" data-trim contenteditable>
+var name = "Richard";
+console.log(`Hello ${name}`);
+					</code></pre>
+					<p>Output:</p>
+					<p class="fragment">Hello Richard</p>
+				</section>
+
+				<section>
+					<h2>Template strings</h2>
+					<p>Expression interpolation / String Substitution</p>
+					<pre><code class="hljs" data-trim contenteditable>
+var num1 = 1;
+var num2 = 2;
+console.log(`${num1} + ${num2} = ${num1 + num2}`);
+					</code></pre>
+					<p>Output: 1 + 2 = 3</p><br/>
+					<p>Another example</p>
+					<pre><code class="hljs" data-trim contenteditable>
+var isTrue = true;
+console.log(`${isTrue ? 'TRUE' : 'FALSE'}`);
+					</code></pre>
+					<p>Output: TRUE</p>
+				</section>
+
+				<section>
+					<img src="es6.jpg" style="margin: auto 0;" />
+					<div>Modules</div>
+				</section>
+
+				<section>
+					<h2>Modules</h2>
+					<table>
+						<thead>
+							<tr>
+								<th><div style="text-align:center;">Chrome</div></th>
+								<th nowrap="true">Firefox (Gecko)</th>
+								<th><div style="text-align:center;">IE</div></th>
+								<th><div style="text-align:center;">Opera</div></th>
+								<th><div style="text-align:center;">Safari</div></th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td><div style="text-align:center;">Not supported</div></td>
+								<td><div style="text-align:center;">Not supported</div></td>
+								<td><div style="text-align:center;">Not supported</div></td>
+								<td><div style="text-align:center;">Not supported</div></td>
+								<td><div style="text-align:center;">Not supported</div></td>
+							</tr>
+						</tbody>
+					</table>
+				</section>
+
+				<section>
+					<h2>Modules</h2>
+					<ul>
+					<li>"A module is simply a JavaScript file written with module syntax. Modules export values, which can then be imported by other modules."</li>
+					<li>ES6 modules are automatically strict-mode code. (No "use strict";)</li>
+					<li>AMD and CommonJs JavaScript files are modules, and they present to ES6 as default export (one per module). For example, when require(...) or define(...) is used.</li>
+					</ul>
+				</section>
+
+				<section>
+					<h2>Modules</h2>
+					<p>Continue...</p>
+					<ul>
+					<li>Module loading was orginally planned and built to ES6. However, it is not finalized yet since there is no general agreement of how to bundle modules (i.e. bundling)</li>
+					</ul>
+				</section>
+
+				<section>
+					<h2>Modules</h2>
+					<p>export / import</p>
+					<pre><code class="hljs" data-trim contenteditable>
+/------ addLib.js ------
+export function add(x, y) {
+	return x + y;
+}
+
+//------ main.js ------
+import add from 'addLib';
+add(1, 2);
+					</code></pre>
+				</section>
+
+				<section>
+					<h2>Modules</h2>
+					<p>export / import</p>
+					<pre><code class="hljs" data-trim contenteditable>
+/------ mathLib.js ------
+export function add(x, y) {
+    return x + y;
+}
+export function substract(x, y) {
+  return x - y;
+}
+
+//------ main.js ------
+import {add, substract} from 'mathLib';
+add(1, 2);
+substract(2, 1);
+					</code></pre>
+				</section>
+
+				<section>
+					<h2>Modules</h2>
+					<p>export / import</p>
+					<p>Named export</p>
+					<pre><code class="hljs" data-trim contenteditable>
+/------ mathLib.js ------
+export function add(x, y) {
+    return x + y;
+}
+export function substract(x, y) {
+  return x - y;
+}
+
+//------ main.js ------
+import {add as sum, substract as minus} as myModule from 'mathLib';
+sum(1, 2);
+minus(2, 1);
+					</code></pre>
+				</section>
+
+				<section>
+					<h2>Modules</h2>
+					<p>export / import</p>
+					<p>Default export (one per module / one per script)</p>
+					<pre><code class="hljs" data-trim contenteditable>
+/------ moduleA.js ------
+export default function () { ... };
+
+//------ main.js ------
+import moduleA from 'moduleA';
+//  or import { default as moduleA } from 'moduleA';
+moduleA();
+					</code></pre>
+					<p>Note: if the named export and default export both exist in the same module, then the default export is considered to be the "main" exported value.</p>
+				</section>
+
+				<section>
+					<h2>Modules</h2>
+					<p>export / import</p>
+					<pre><code class="hljs" data-trim contenteditable>
+/------ mathLib.js ------
+export function add(x, y) {
+    return x + y;
+}
+export function substract(x, y) {
+  return x - y;
+}
+
+//------ main.js ------
+import * as myModule from 'mathLib';
+myModule.add(1, 2);
+myModule.substract(2, 1);
+					</code></pre>
+				</section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+				<section style="text-align: left;">
+					<h1>More...</h1>
+					<p>Classes</p>
+					<p>Promises</p>
+					<p>Generators</p>
+					<p>Collections</p>
+					<p>Symbols</p>
+					<p>Map/Set, WeakMap/WeakSet</p>
+					<p>Iterables, Iterators, for-of loop</p>
+					<p>Proxies</p>
+				</section>
+
+				<section style="text-align: left;">
+					<h1>References:</h1>
+					<p>
+						Exploring ES6: Upgrade to the next version of JavaScript<br/>
+						<a href="http://exploringjs.com/">http://exploringjs.com/</a>
+					</p>
+					<p>
+						Understanding ECMAScript 6<br/>
+						<a href="https://leanpub.com/understandinges6">https://leanpub.com/understandinges6</a>
+					</p>
+					<p>
+						Setting up ES6<br/>
+						<a href="https://leanpub.com/setting-up-es6/">https://leanpub.com/setting-up-es6/</a>
+					</p>
+				</section>
+
+				<section style="text-align: left;">
+					<h1>References:</h1>
+					<p>
+						ES6 In Depth Articles<br/>
+						<a href="https://hacks.mozilla.org/category/es6-in-depth/">https://hacks.mozilla.org/category/es6-in-depth/</a>
+					</p>
+					<p>
+						Beginners ES6 and Babel Tutorial<br/>
+						<a href="https://html5hive.org/es6-and-babel-tutorial/">https://html5hive.org/es6-and-babel-tutorial/</a>
+					</p>
+					<p>
+						ECMAScript 2015 (ES6) Tutorial with Babel 6 and Webpack<br/>
+						<a href="http://ccoenraets.github.io/es6-tutorial/index.html">http://ccoenraets.github.io/es6-tutorial/index.html</a>
+					</p>
+				</section>
+
+			</div>
+
+		</div>
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.js"></script>
+
+		<script>
+
+			// Full list of configuration options available at:
+			// https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+				center: true,
+
+				transition: 'slide', // none/fade/slide/convex/concave/zoom
+
+				// Optional reveal.js plugins
+				dependencies: [
+					{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+					{ src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: 'plugin/zoom-js/zoom.js', async: true },
+					{ src: 'plugin/notes/notes.js', async: true }
+				]
+			});
+
+		</script>
+
+	</body>
+</html>
